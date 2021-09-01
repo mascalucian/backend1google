@@ -9,4 +9,8 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\AspNetSandbox.Tests\AspNetSandbox.Tests.csproj" />
+  </ItemGroup>
+
 </Project>
