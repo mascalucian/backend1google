@@ -34,6 +34,7 @@ namespace AspNetSandbox.Controllers
                 Summary = Summaries[rng.Next(Summaries.Length)]
             })
             .ToArray();
+            //https://api.openweathermap.org/data/2.5/onecall?lat=45.657974&lon=25.601198&exclude=hourly,minutely&appid=1637fc62cd976a8699f16ac5f7d9b92f
         }
     }
 }

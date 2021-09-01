@@ -11,29 +11,34 @@
 <body>
 
     <div id="parteadesus">
-       
+
         <a href="#" id="gmail">Gmail</a>
         <a href="#" id="image">Imagini</a>
         <a href="#" id="menu"><img src="vectorpaint.svg" height="16px" width="16px"></a>
-        <a href="#" id="loggedin" class="popup" onclick="myFunction()"><img src="iconprof.png">
+        <a href="#" id="loggedin" class="popup" onclick="myFunction()">
+            <img src="iconprof.png">
             <span class="popuptext" id="myPopup"><img src="popupopen.png"></span>
         </a>
     </div>
     <div id="main">
         <a href="#" id="logo"><img src="logo.png" width="100%"></a>
-        <div id="search" class="searchbox"><img src="lens.png" class="lens"><input type="text" class="searchtext">
-        <img src="keyb.ico" class="keyb">
-        <img src="mic.png" class="mic">  </div>
-        
+        <div id="search" class="searchbox">
+            <img src="lens.png" class="lens"><input type="text" class="searchtext">
+            <img src="keyb.ico" class="keyb">
+            <img src="mic.png" class="mic">
+        </div>
+
         <div id="flexbox">
-            
+
             <button id="google-search-btn">Căutare Google</button><button id="random-search-btn">Mă simt norocos</button>
         </div>
-        <p id="google-text">Google oferit în:<a href="#" id="deutsch" class="spatiu">English</a>
-              <a margin-left="5px" href="#" id="deutsch" class="spatiu">Magyar</a>
-            <a href="#" id="deutsch" class="spatiu">Deutsch</a></p>
+        <p id="google-text">
+            Google oferit în:<a href="#" id="deutsch" class="spatiu">English</a>
+            <a margin-left="5px" href="#" id="deutsch" class="spatiu">Magyar</a>
+            <a href="#" id="deutsch" class="spatiu">Deutsch</a>
+        </p>
     </div>
-    <div id="footer-" class="botflex botflex-1"> 
+    <div id="footer-" class="botflex botflex-1">
         <div id="footer-" class="botstanga footer- footer-s-1">
             <a href="#" id="despre">Despre</a>
             <a href="#" id="advertising">Publicitate</a>
@@ -46,17 +51,29 @@
             <a href="#" id="settings">Setări</a>
         </div>
     </div>
-     <div id="footer2-" class="botflex2 botflex2-1 footer2-1">
+    <div id="footer2-" class="botflex2 botflex2-1 footer2-1">
         <div> <a href="#" id="tara" class="botstanga">România</a></div>
-       
-        
-    </div> 
+
+
+    </div>
     <script>
         // When the user clicks on <div>, open the popup
         function myFunction() {
-          var popup = document.getElementById("myPopup");
-          popup.classList.toggle("show");
+            var popup = document.getElementById("myPopup");
+            popup.classList.toggle("show");
         }
-        </script>
+    </script>
+    <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script>
+        var settings = {
+            "url": "https://localhost:5001/WeatherForecast",
+            "method": "GET",
+            "timeout": 0,
+        };
+
+        $.ajax(settings).done(function (response) {
+            console.log(response);
+        });
+    </script>
 </body>
 </html>
