@@ -79,7 +79,7 @@
             console.log(response);
             //let textArea = document.getElementById('weatherForecast');
             //textArea.innerHTML = "salut";
-            $('#weatherForecast').val("The weather for tomorrow will be: " + response[0].summary);
+            $('#weatherForecast').val("The weather for tomorrow will be " + response[0].summary + " and the temperature will get around " + response[0].temperatureC+" Celsius Degrees.");
         });
     </script>
 </body>
