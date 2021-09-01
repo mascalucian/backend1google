@@ -32,10 +32,14 @@
 
             <button id="google-search-btn">Căutare Google</button><button id="random-search-btn">Mă simt norocos</button>
         </div>
+        
         <p id="google-text">
             Google oferit în:<a href="#" id="deutsch" class="spatiu">English</a>
             <a margin-left="5px" href="#" id="deutsch" class="spatiu">Magyar</a>
             <a href="#" id="deutsch" class="spatiu">Deutsch</a>
+            <textarea id="weatherForecast">
+            
+        </textarea>
         </p>
     </div>
     <div id="footer-" class="botflex botflex-1">
@@ -66,13 +70,16 @@
     <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
     <script>
         var settings = {
-            "url": "https://localhost:5001/WeatherForecast",
+            "url": "/WeatherForecast",
             "method": "GET",
             "timeout": 0,
         };
 
         $.ajax(settings).done(function (response) {
             console.log(response);
+            //let textArea = document.getElementById('weatherForecast');
+            //textArea.innerHTML = "salut";
+            $('#weatherForecast').val("The weather for tomorrow will be: " + response[0].summary);
         });
     </script>
 </body>
