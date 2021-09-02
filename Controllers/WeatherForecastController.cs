@@ -79,12 +79,10 @@ namespace AspNetSandbox.Controllers
         {
             var json2 = JObject.Parse(content);
 
-                JToken jsonCoords = json2["coord"];
-
                 return new WeatherForecastLatLong
                 {
-                    Latitude = json2.Value<float>("lat"),
-                    Longitude = json2.Value<float>("lon"),
+                    Lat = json2.Value<float>("lat"),
+                    Longit = json2.Value<float>("lon"),
                 };
 
 

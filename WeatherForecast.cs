@@ -14,8 +14,8 @@ namespace AspNetSandbox
     }
     public class WeatherForecastLatLong
     {
-        public float Latitude { get; set; }
+        public float Lat { get; set; }
 
-        public float Longitude { get; set; }
+        public float Longit { get; set; }
     }
 }
