@@ -5,12 +5,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="RestSharp" Version="106.12.0" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.1" />
+    <Compile Remove="TestProject1\**" />
+    <Content Remove="TestProject1\**" />
+    <EmbeddedResource Remove="TestProject1\**" />
+    <None Remove="TestProject1\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AspNetSandbox.Tests\AspNetSandbox.Tests.csproj" />
+    <PackageReference Include="RestSharp" Version="106.12.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.1" />
   </ItemGroup>
 
 </Project>
