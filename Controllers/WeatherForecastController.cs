@@ -55,7 +55,7 @@ namespace AspNetSandbox.Controllers
             {
                 Date = DateTime.Now.AddDays(index),
                 TemperatureC = rng.Next(-20, 55),
-                Summary = Summaries[rng.Next(Summaries.Length-1)]
+                Summary = json["current"]["weather"][0].Value<string>("main")
             })
             .ToArray();
     }

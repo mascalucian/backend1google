@@ -21,7 +21,7 @@ namespace TestProject1
 
 
             // Assert
-            Assert.Equal("Cool", ((WeatherForecast[])output)[0].Summary);
+            Assert.Equal("Clouds", ((WeatherForecast[])output)[0].Summary);
         }
     }
 }
