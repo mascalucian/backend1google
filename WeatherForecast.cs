@@ -12,4 +12,10 @@ namespace AspNetSandbox
 
         public string Summary { get; set; }
     }
+    public class WeatherForecastLatLong
+    {
+        public string Latitude { get; set; }
+
+        public string Longitude { get; set; }
+    }
 }

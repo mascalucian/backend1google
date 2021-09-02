@@ -41,7 +41,7 @@ namespace AspNetSandbox.Controllers
             
             return Enumerable.Range(1, days).Select(index => {
             JToken jsonDailyForecast = json["daily"][index-1];
-            var unixDateTime = json["daily"][1].Value<long>("dt");
+            var unixDateTime = json["daily"][index-1].Value<long>("dt");
 
                 return new WeatherForecast
                 {
@@ -53,6 +53,48 @@ namespace AspNetSandbox.Controllers
             .ToArray();
         
 
+        }
     }
+    public class WeatherForecastControllerForCoord : ControllerBase
+    {
+
+
+        public WeatherForecastControllerForCoord()
+        {
+
+        }
+
+        [HttpGet]
+        public IEnumerable<WeatherForecastLatLong> Get()
+        {
+        
+            var client = new RestClient("http://api.openweathermap.org/data/2.5/weather?q=Brasov&appid=1637fc62cd976a8699f16ac5f7d9b92f");
+            client.Timeout = -1;
+            var request = new RestRequest(Method.GET);
+            IRestResponse response = client.Execute(request);
+
+            return ConvertResponseToWeatherForecast(response.Content);
+        }
+
+
+        public IEnumerable<WeatherForecastLatLong> ConvertResponseToWeatherForecast(string content, int days = 5)
+        {
+            var json2 = JObject.Parse(content);
+            var rng = new Random();
+
+            return Enumerable.Range(1, days).Select(index => {
+                //JToken jsonDailyForecast = json2["daily"][index - 1];
+                //var unixDateTime = json2["daily"][index - 1].Value<long>("dt");
+
+                return new WeatherForecastLatLong
+                {
+                    Latitude = "10",
+                    Longitude = "12",
+                };
+            })
+            .ToArray();
+
+
+        }
     }
 }

@@ -45,7 +45,7 @@ namespace TestProject1
             WeatherForecast weatherForecastForTomorrow = ((WeatherForecast[])output)[2];
             Assert.Equal("Clear", weatherForecastForTomorrow.Summary);
             Assert.Equal(21, weatherForecastForTomorrow.TemperatureC);
-            Assert.Equal(new DateTime(2021, 9, 3), weatherForecastForTomorrow.Date);
+            Assert.Equal(new DateTime(2021, 9, 4), weatherForecastForTomorrow.Date);
         }
 
         private string LoadJsonFromResource()
