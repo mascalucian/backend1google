@@ -29,8 +29,6 @@ namespace AspNetSandbox.Controllers
             IRestResponse response = client.Execute(request);
 
             return ConvertResponseToWeatherForecast(response.Content);
-
-            var rng = new Random();
         }
 
 
