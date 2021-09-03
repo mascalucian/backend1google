@@ -31,7 +31,7 @@ namespace AspNetSandbox.Controllers
             return ConvertResponseToWeatherForecast(response.Content);
         }
 
-
+        [NonAction]
         public IEnumerable<WeatherForecast> ConvertResponseToWeatherForecast(string content,int days = 5)
         {
             var json = JObject.Parse(content);
@@ -53,11 +53,13 @@ namespace AspNetSandbox.Controllers
 
         }
     }
-    public class WeatherForecastControllerForCoord : ControllerBase
+    [ApiController]
+    [Route("[controller]")]
+    public class WeatherForecastForCoordController : ControllerBase
     {
 
 
-        public WeatherForecastControllerForCoord()
+        public WeatherForecastForCoordController()
         {
 
         }
@@ -74,15 +76,15 @@ namespace AspNetSandbox.Controllers
             return ConvertResponseToCoords(response.Content);
         }
 
-
+        [NonAction]
         public WeatherForecastLatLong ConvertResponseToCoords(string content)
         {
             var json2 = JObject.Parse(content);
 
                 return new WeatherForecastLatLong
                 {
-                    Lat = json2.Value<float>("lat"),
-                    Longit = json2.Value<float>("lon"),
+                    Lat = json2["coord"].Value<float>("lat"),
+                    Longit = json2["coord"].Value<float>("lon"),
                 };
 
 
