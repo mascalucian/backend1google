@@ -22,6 +22,12 @@ namespace AspNetSandbox
             books[0].Title = "Atomic Habits";
             books[0].Author = "Someone";
             books[0].Language = "English";
+
+            books[1] = new Book();
+            books[1].Id = 1;
+            books[1].Title = "Capra cu 3 iezi";
+            books[1].Author = "IDK";
+            books[1].Language = "Romanian";
         }
         // GET: api/<BooksController>
         [HttpGet]
