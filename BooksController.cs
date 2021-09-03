@@ -12,11 +12,22 @@ namespace AspNetSandbox
     [ApiController]
     public class BooksController : ControllerBase
     {
+
+        private Book[] books;
+        public BooksController()
+        {
+            books = new Book[2];
+            books[0] = new Book();
+            books[0].Id = 0;
+            books[0].Title = "Atomic Habits";
+            books[0].Author = "Someone";
+            books[0].Language = "English";
+        }
         // GET: api/<BooksController>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IEnumerable<Book> Get()
         {
-            return new string[] { "value1", "value2" };
+            return books;
         }
 
         // GET api/<BooksController>/5
