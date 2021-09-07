@@ -13,8 +13,8 @@ namespace AspNetSandbox
     public class BooksController : ControllerBase
     {
 
-        private List<Book> books;
-        public BooksController()
+        private static List<Book> books;
+        static BooksController()
         {
             books = new List<Book>();
             books.Add( new Book
