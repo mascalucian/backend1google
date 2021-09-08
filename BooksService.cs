@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace AspNetSandbox
 {
-    public class BooksService
+    public class BooksService : IBooksService
     {
         private List<Book> books;
         public BooksService()
@@ -37,7 +37,7 @@ namespace AspNetSandbox
             return books.Single(book => book.Id == id);
         }
 
-        public void Post( Book value)
+        public void Post(Book value)
         {
             int id = books.Count + 1;
             value.Id = id;
