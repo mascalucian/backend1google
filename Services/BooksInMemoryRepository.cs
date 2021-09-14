@@ -4,12 +4,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace AspNetSandbox
+namespace AspNetSandbox.Services
 {
-    public class BooksService : IBooksService
+    public class BooksInMemoryRepository : IBookRepository
     {
         private List<Book> books;
-        public BooksService()
+        public BooksInMemoryRepository()
         {
             books = new List<Book>();
             books.Add(new Book

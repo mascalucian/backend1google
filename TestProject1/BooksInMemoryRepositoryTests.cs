@@ -1,5 +1,6 @@
 ﻿using AspNetSandbox;
 using AspNetSandbox.Models;
+using AspNetSandbox.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,13 +10,13 @@ using Xunit;
 
 namespace TestProject1
 {
-    public class BooksServiceTests
+    public class BooksInMemoryRepositoryTests
     {
         [Fact]
         public void ConvertResponseToWeatherForecastTest()
         {
             // Assume
-            var booksService= new BooksService();
+            var booksService= new BooksInMemoryRepository();
 
 
             // Act

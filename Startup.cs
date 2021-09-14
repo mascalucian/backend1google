@@ -13,6 +13,7 @@ namespace AspNetSandbox
     using System.Reflection;
     using System.Threading.Tasks;
     using AspNetSandbox.Data;
+    using AspNetSandbox.Services;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.HttpsPolicy;
@@ -64,7 +65,7 @@ namespace AspNetSandbox
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "ApiSandbox", Version = "v1" });
             });
-            services.AddSingleton<IBooksService, BooksService>();
+            services.AddSingleton<IBookRepository, BooksInMemoryRepository>();
         }
 
 
