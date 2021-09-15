@@ -24,14 +24,18 @@
 </div>
 <div class="row">
     <div class="col-6">
-        @*<ul id="messagesList">
-            @for (var i = 0; i < Model.Count; i++)
-            {
-                var message = Model[i];
+        <ul id="messagesList">
+                        @*@for (var i = 0; i < Model.Count; i++)
+                        {
+                            var message = Model[i];
 
-<li>
-    @message.User says @message.MessageContent
-</li>}
-        </ul>*@
+            <li>
+                @message.User says @message.MessageContent
+            </li>}*@
+                    </ul>
     </div>
 </div>
+@section scripts {
+    <script src="~/lib/microsoft-signalr/signalr.js"></script>
+    <script src="~/js/chat.js"></script>
+}

@@ -43,6 +43,7 @@ namespace AspNetSandbox2
                 .AddEntityFrameworkStores<ApplicationDbContext>();
                      services.AddRazorPages();
                      services.AddControllers();
+                      services.AddSignalR();
                      services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "WebApi2", Version = "v1" });
@@ -97,8 +98,8 @@ namespace AspNetSandbox2
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
-
                 endpoints.MapRazorPages();
+                endpoints.MapHub<MessageHub>("/messagehub");
             });
         }
     }
