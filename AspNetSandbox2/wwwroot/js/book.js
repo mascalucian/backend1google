@@ -14,15 +14,15 @@ connection.start().then(function () {
 
 
 
-connection.on("BookCreated", function (user, message) {
+connection.on("BookCreated", function (book) {
     console.log(`Book Created: ${JSON.stringify(book)}`);
 
 
 
     $("tbody").append(`<tr>
-< td >
+<td>
 ${book.title}
-</td >
+</td>
 <td>
 ${book.author}
 </td>
@@ -34,5 +34,5 @@ ${book.language}
 <a href="/Books/Details?id=${book.id}">Details</a> |
 <a href="/Books/Delete?id=${book.id}">Delete</a>
 </td>
-</tr >`);
+</tr>`);
 });
