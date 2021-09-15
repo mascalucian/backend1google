@@ -1,5 +1,5 @@
 ﻿@page
-@model AspNetSandbox.Pages.Shared.CreateModel
+@model AspNetSandbox2.Pages.Shared.CreateModel
 
 @{
     ViewData["Title"] = "Create";
@@ -41,4 +41,6 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="~/lib/microsoft-signalr/signalr.js"></script>
+    <script src="~/js/book.js"></script>
 }
