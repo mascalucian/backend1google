@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using AspNetSandbox2.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 
 namespace AspNetSandbox2.Pages.Shared
@@ -10,11 +11,13 @@ namespace AspNetSandbox2.Pages.Shared
     /// <summary>Provides the ability to edit book data.</summary>
     public class EditModel : PageModel
     {
+        private readonly IHubContext<MessageHub> hubContext;
         private readonly AspNetSandbox2.Data.ApplicationDbContext context;
 
-        public EditModel(AspNetSandbox2.Data.ApplicationDbContext context)
+        public EditModel(AspNetSandbox2.Data.ApplicationDbContext context, IHubContext<MessageHub> hubContext)
         {
             this.context = context;
+            this.hubContext = hubContext;
         }
 
         [BindProperty]
@@ -48,9 +51,11 @@ namespace AspNetSandbox2.Pages.Shared
 
             this.context.Attach(Book).State = EntityState.Modified;
 
+
             try
             {
                 await this.context.SaveChangesAsync();
+
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -63,7 +68,7 @@ namespace AspNetSandbox2.Pages.Shared
                     throw;
                 }
             }
-
+            await hubContext.Clients.All.SendAsync("BookUpdated", Book);
             return RedirectToPage("./Index");
         }
 

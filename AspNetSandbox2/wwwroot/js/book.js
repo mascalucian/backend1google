@@ -20,19 +20,42 @@ connection.on("BookCreated", function (book) {
 
 
     $("tbody").append(`<tr>
-<td>
-${book.title}
-</td>
-<td>
-${book.author}
-</td>
-<td>
-${book.language}
-</td>
-<td>
-<a href="/Books/Edit?id=${book.id}">Edit</a> |
-<a href="/Books/Details?id=${book.id}">Details</a> |
-<a href="/Books/Delete?id=${book.id}">Delete</a>
-</td>
-</tr>`);
+        <td>
+        ${book.title}
+        </td>
+        <td>
+        ${book.author}
+        </td>
+        <td>
+        ${book.language}
+        </td>
+        <td>
+        <a href="/Books/Edit?id=${book.id}">Edit</a> |
+        <a href="/Books/Details?id=${book.id}">Details</a> |
+        <a href="/Books/Delete?id=${book.id}">Delete</a>
+        </td>
+        </tr>`);
+});
+
+connection.on("BookUpdated", function (book) {
+    console.log(`Book Updated: ${JSON.stringify(book)}`);
+
+    $("tbody").find("tr.body_caption, tr.body_caption_top").remove();
+
+    $("tbody").append(`<tr>
+        <td>
+        ${book.title}
+        </td>
+        <td>
+        ${book.author}
+        </td>
+        <td>
+        ${book.language}
+        </td>
+        <td>
+        <a href="/Books/Edit?id=${book.id}">Edit</a> |
+        <a href="/Books/Details?id=${book.id}">Details</a> |
+        <a href="/Books/Delete?id=${book.id}">Delete</a>
+        </td>
+        </tr>`);
 });
