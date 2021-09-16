@@ -53,6 +53,7 @@ namespace AspNetSandbox2.Pages.Shared
                 this.context.Book.Remove(Book);
                 await this.context.SaveChangesAsync();
             }
+
             await hubContext.Clients.All.SendAsync("BookDeleted", Book);
             return RedirectToPage("./Index");
         }
