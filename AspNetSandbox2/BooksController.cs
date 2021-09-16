@@ -62,7 +62,7 @@ namespace AspNetSandbox2
             if (ModelState.IsValid)
             {
                 repository.AddBook(book);
-                hubContext.Clients.All.SendAsync("Book Created", book);
+                hubContext.Clients.All.SendAsync("BookCreated", book);
                 return Ok();
             }
             else
