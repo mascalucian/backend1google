@@ -71,7 +71,9 @@ namespace AspNetSandbox2
 
         public static string ConvertConnectionString(string connectionString)
         {
-            throw new NotImplementedException();
+            Uri uri = new Uri("postgres://lwjdryuypwnqtx:25777239092a93a32507fd67569f37713ced3f9100999432579963c3b231267a@ec2-52-30-81-192.eu-west-1.compute.amazonaws.com:5432/db6v97ok67hpgg");
+            string v = $"Server={uri.Host};Port={uri.Port};Database={uri.AbsolutePath.TrimStart('/')};User Id={uri.UserInfo.Split(":")[0]};Password={uri.UserInfo.Split(":")[1]};SSL Mode=Require;Trust Server Certificate=true";
+            return v;
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
