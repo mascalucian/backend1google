@@ -33,18 +33,17 @@ namespace AspNetSandbox2
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-                     services.AddDbContext<ApplicationDbContext>(options =>
+            services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseNpgsql(GetConnectionString()));
 
-                options.UseNpgsql(
-                    Configuration.GetConnectionString("DefaultConnection")));
-                     services.AddDatabaseDeveloperPageExceptionFilter();
+            services.AddDatabaseDeveloperPageExceptionFilter();
 
-                     services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
-                     services.AddRazorPages();
-                     services.AddControllers();
-                      services.AddSignalR();
-                     services.AddSwaggerGen(c =>
+            services.AddRazorPages();
+            services.AddControllers();
+            services.AddSignalR();
+            services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "WebApi2", Version = "v1" });
 
@@ -58,6 +57,21 @@ namespace AspNetSandbox2
                 c.IncludeXmlComments(xmlPath, includeControllerXmlComments: true);
             });
                      services.AddScoped<IBookRepository, DbBooksRepository>();
+        }
+
+        private string GetConnectionString()
+        {
+            var connectionString = Environment.GetEnvironmentVariable("DATABASE_URL");
+            if (connectionString != null)
+            {
+                return ConvertConnectionString(connectionString);
+            }
+            return Configuration.GetConnectionString("DefaultConnection");
+        }
+
+        public static string ConvertConnectionString(string connectionString)
+        {
+            throw new NotImplementedException();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

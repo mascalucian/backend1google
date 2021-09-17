@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using AspNetSandbox;
 using AspNetSandbox2.Data;
 using AspNetSandbox2.Models;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
@@ -15,6 +16,7 @@ namespace AspNetSandbox2
     [ApiController]
     public class BooksController : ControllerBase
     {
+        private readonly Mapper mapper;
         private readonly IBookRepository repository;
         private readonly IHubContext<MessageHub> hubContext;
         private readonly ApplicationDbContext _context;
@@ -23,13 +25,16 @@ namespace AspNetSandbox2
         {
             this.repository = repository;
             this.hubContext = hubContext;
+            this.mapper = mapper;
         }
 
         // GET: api/<BooksController>
         [HttpGet]
-        public IActionResult Get()
+        public async Task<IActionResult> Get()
         {
-            return Ok(repository.GetBooks());
+            var bookList = repository.GetBooks();
+            var readBookList = mapper.Map<IEnumerable<ReadBookDto>>(bookList);
+            return Ok(readBookList);
         }
 
         [HttpPut("{id}")]
