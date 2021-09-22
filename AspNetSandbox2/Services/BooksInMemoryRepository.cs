@@ -1,34 +1,34 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using AspNetSandbox;
+using System.Threading.Tasks;
 using AspNetSandbox2.Models;
 
-namespace AspNetSandbox2.Services
+namespace AspNetSandbox.Services
 {
     public class BooksInMemoryRepository : IBookRepository
     {
-        private List<Book> books;
+        private readonly List<Book> books;
+        private int idCounter = 1;
 
         public BooksInMemoryRepository()
         {
-            books = new List<Book>
+            books = new List<Book>();
+            books.Add(new Book
             {
-                new Book
-                {
-                    Id = 0,
-                    Title = "Amintirile peregrinului apter",
-                    Language = "Romanian",
-                    Author = "Valeriu Anania",
-                },
+                Id = idCounter++,
+                Title = "Game of Thrones",
+                Language = "English",
+                Author = "George R. R. Martin",
+            });
 
-                new Book
-                {
-                    Id = 1,
-                    Title = "test",
-                    Language = "Romanian",
-                    Author = "asaa",
-                },
-            };
+            books.Add(new Book
+            {
+                Id = idCounter++,
+                Title = "Deep Work",
+                Language = "English",
+                Author = "Cal Newport",
+            });
         }
 
         public IEnumerable<Book> GetBooks()
@@ -36,30 +36,30 @@ namespace AspNetSandbox2.Services
             return books;
         }
 
-        public Book GetBooks(int id)
+        public Book GetBook(int id)
         {
-            return books.Single(book => book.Id == id);
+            return books.Single(_ => _.Id == id);
         }
 
         public void AddBook(Book value)
         {
-            int lastId = books[books.Count - 1].Id;
-            value.Id = lastId + 1;
-
+            value.Id = idCounter++;
             books.Add(value);
         }
 
-        public void ReplaceBook(int id, Book value)
+        public void UpdateBook(int id, Book value)
         {
-            if (id == value.Id)
+            value.Id = id;
+            var toUpdateBookIndex = books.FindIndex(_ => _.Id == id);
+            if (GetBook(id) != null)
             {
-                books[id] = value;
+                books[toUpdateBookIndex] = value;
             }
         }
 
         public void DeleteBook(int id)
         {
-            books.Remove(GetBooks(id));
+            books.Remove(GetBook(id));
         }
     }
 }

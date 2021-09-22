@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using AspNetSandbox2;
 using AspNetSandbox2.Models;
 
 namespace AspNetSandbox
@@ -8,12 +7,12 @@ namespace AspNetSandbox
     {
         void DeleteBook(int id);
 
-        IEnumerable<Book> GetBooks();
-
-        Book GetBooks(int id);
+        Book GetBook(int id);
 
         void AddBook(Book value);
 
-        void ReplaceBook(int id, Book value);
+        void UpdateBook(int id, Book value);
+
+        IEnumerable<Book> GetBooks();
     }
 }
