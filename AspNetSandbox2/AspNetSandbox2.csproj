@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>C:\git\backend1google\AspNetSandbox2\AspNetSandbox2.xml</DocumentationFile>
+    <DocumentationFile>AspNetSandbox2.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
