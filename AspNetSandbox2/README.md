@@ -42,5 +42,6 @@ heroku container:push -a asp-net-backend web
 Release the container
 ```
 heroku container:release -a asp-net-backend web
+```
 
 ![alt text](https://i.imgur.com/51RcXRy.jpg)
