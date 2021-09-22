@@ -31,8 +31,9 @@ namespace AspNetSandbox.Tests
         [Fact]
         public void AppendFileTest()
         {
-            string docPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            using (StreamWriter outputFile = new StreamWriter(Path.Combine(docPath, "README.md"), true))
+            System.IO.DirectoryInfo directoryInfo = new System.IO.DirectoryInfo(".");
+            var path = directoryInfo.Parent.Parent.Parent.ToString();
+            using (StreamWriter outputFile = new StreamWriter(Path.Combine(path, "README.md"), true))
             {
                 outputFile.WriteLine("appended text");
             }
