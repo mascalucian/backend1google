@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
-using AspNetSandbox;
+using AspNetSandbox.DTOs;
+using AspNetSandbox2;
 using AspNetSandbox2.Data;
 using AspNetSandbox2.Models;
 using AutoMapper;
@@ -9,19 +11,17 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-namespace AspNetSandbox2
+namespace AspNetSandbox.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     public class BooksController : ControllerBase
     {
-        private readonly Mapper mapper;
         private readonly IBookRepository repository;
         private readonly IHubContext<MessageHub> hubContext;
-        private readonly ApplicationDbContext _context;
+        private readonly IMapper mapper;
 
-        public BooksController(IBookRepository repository, IHubContext<MessageHub> hubContext)
+       public BooksController(IBookRepository repository, IHubContext<MessageHub> hubContext, IMapper mapper)
         {
             this.repository = repository;
             this.hubContext = hubContext;
@@ -29,57 +29,89 @@ namespace AspNetSandbox2
         }
 
         // GET: api/<BooksController>
-        [HttpGet]
-        public async Task<IActionResult> Get()
-        {
-            var bookList = repository.GetBooks();
-            var readBookList = mapper.Map<IEnumerable<ReadBookDto>>(bookList);
-            return Ok(readBookList);
-        }
 
-        [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody] Book book)
+        /// <summary>
+        /// Gets all book objects.
+        /// </summary>
+        /// <returns>ReadBookDto objects.</returns>
+        [HttpGet]
+        public IActionResult Get()
         {
-             _context.Update(book);
-             _context.SaveChangesAsync();
-             return Ok();
+            var books = repository.GetBooks();
+            var readBookDtoList = mapper.Map<IEnumerable<DTOs.ReadBookDto>>(books);
+            return Ok(readBookDtoList);
         }
 
         // GET api/<BooksController>/5
+
+        /// <summary>Gets the specified book by id.</summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns>ReadBookDto object.</returns>
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
             try
             {
-                var book = repository.GetBooks(id);
-                return Ok(book);
+                Book book = repository.GetBook(id);
+                AspNetSandbox2.ReadBookDto readBookDto = mapper.Map<AspNetSandbox2.ReadBookDto>(book);
+                return Ok(readBookDto);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                return NotFound(ex);
+                return NotFound();
             }
         }
 
         // POST api/<BooksController>
+
+        /// <summary>
+        /// Adds a new Book object.
+        /// </summary>
+        /// <param name="bookDto">The value.</param>
         [HttpPost]
-        public IActionResult Post([FromBody] Book book)
+        public async Task<IActionResult> Post([FromBody] CreateBookDto bookDto)
         {
             if (ModelState.IsValid)
             {
+                Book book = mapper.Map<Book>(bookDto);
                 repository.AddBook(book);
-                hubContext.Clients.All.SendAsync("BookCreated", book);
+                await hubContext.Clients.All.SendAsync("AddedBook", book);
                 return Ok();
-            }
+            } 
             else
             {
                 return BadRequest();
             }
         }
 
-        [HttpDelete("{id}")]
-        public ActionResult Delete(int id)
+        // PUT api/<BooksController>/5
+
+        /// <summary>
+        /// Updates a Book object by id.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <param name="bookDto">The value.</param>
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutAsync(int id, [FromBody] CreateBookDto bookDto)
         {
-            repository.DeleteBook(repository.GetBooks(id).Id);
+            Book book = mapper.Map<Book>(bookDto);
+            repository.UpdateBook(id, book);
+            await hubContext.Clients.All.SendAsync("EditedBook", book);
+            return Ok();
+        }
+
+        // DELETE api/<BooksController>/5
+
+        /// <summary>
+        /// Deletes a Book object by id.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            Book book = repository.GetBook(id);
+            hubContext.Clients.All.SendAsync("DeletedBook", book);
+            repository.DeleteBook(id);
             return Ok();
         }
     }
