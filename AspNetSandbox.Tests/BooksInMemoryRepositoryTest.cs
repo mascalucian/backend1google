@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AspNetSandbox.Services;
 using AspNetSandbox2;
 using AspNetSandbox2.Models;
 using AspNetSandbox2.Services;
@@ -36,9 +37,10 @@ namespace AspNetSandbox.Tests
             });
 
             // Assert
-            Assert.Equal("T2", booksService.GetBooks(2).Title);
-            Assert.Equal("T2", booksService.GetBooks(2).Author);
-            Assert.Equal("T2", booksService.GetBooks(2).Language);
+            var foundBook = booksService.GetBook(4);
+            Assert.Equal("T2", foundBook.Title);
+            Assert.Equal("T2", foundBook.Author);
+            Assert.Equal("T2", foundBook.Language);
         }
 
         [Fact]
@@ -48,18 +50,17 @@ namespace AspNetSandbox.Tests
             booksService = new BooksInMemoryRepository();
 
             // Act
-            booksService.ReplaceBook(0, new Book
+            booksService.UpdateBook(1, new Book
             {
-                Id = 0,
                 Title = "TReplace",
                 Author = "TReplace",
                 Language = "TReplace",
             });
 
             // Assert
-            Assert.Equal("TReplace", booksService.GetBooks(0).Title);
-            Assert.Equal("TReplace", booksService.GetBooks(0).Author);
-            Assert.Equal("TReplace", booksService.GetBooks(0).Language);
+            Assert.Equal("TReplace", booksService.GetBook(1).Title);
+            Assert.Equal("TReplace", booksService.GetBook(1).Author);
+            Assert.Equal("TReplace", booksService.GetBook(1).Language);
         }
     }
 }
