@@ -4,7 +4,8 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using AspNetSandbox;
+using AspNetSandbox.Data;
+using AspNetSandbox2;
 using AspNetSandbox2.Data;
 using AspNetSandbox2.Services;
 using Microsoft.AspNetCore.Builder;
@@ -18,8 +19,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Infrastructure;
 
-namespace AspNetSandbox2
+namespace AspNetSandbox
 {
     public class Startup
     {
@@ -34,29 +36,24 @@ namespace AspNetSandbox2
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseNpgsql(GetConnectionString()));
-
+                options.UseNpgsql(
+                    GetConnectionString()));
             services.AddDatabaseDeveloperPageExceptionFilter();
 
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddRazorPages();
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddControllers();
-            services.AddSignalR();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "WebApi2", Version = "v1" });
-
-                // <MARKED> Set the comments path for the Swagger JSON and UI .
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "ApiSandbox", Version = "v1" });
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-
-                // <MARKED>.
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-
-                // <MARKED>.
                 c.IncludeXmlComments(xmlPath, includeControllerXmlComments: true);
             });
-                     services.AddScoped<IBookRepository, DbBooksRepository>();
+            services.AddSignalR();
+            services.AddSingleton<IBookRepository, BooksInMemoryRepository>();
         }
 
         private string GetConnectionString()
@@ -71,9 +68,15 @@ namespace AspNetSandbox2
 
         public static string ConvertConnectionString(string connectionString)
         {
-            Uri uri = new Uri("postgres://lwjdryuypwnqtx:25777239092a93a32507fd67569f37713ced3f9100999432579963c3b231267a@ec2-52-30-81-192.eu-west-1.compute.amazonaws.com:5432/db6v97ok67hpgg");
-            string v = $"Server={uri.Host};Port={uri.Port};Database={uri.AbsolutePath.TrimStart('/')};User Id={uri.UserInfo.Split(":")[0]};Password={uri.UserInfo.Split(":")[1]};SSL Mode=Require;Trust Server Certificate=true";
-            return v;
+            Uri uri = new Uri(connectionString);
+
+            int port = uri.Port;
+            string database = uri.AbsolutePath.TrimStart('/');
+            string host = uri.Host;
+            string userId = uri.UserInfo.Split(':')[0];
+            string password = uri.UserInfo.Split(':')[1];
+
+            return $"Port={port}; Database={database}; Host={host}; User Id={userId}; Password={password}; SSL Mode=Require; Trust Server Certificate=true";
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -81,44 +84,42 @@ namespace AspNetSandbox2
         {
             if (env.IsDevelopment())
             {
-                app.UseMigrationsEndPoint();
                 app.UseDeveloperExceptionPage();
+                app.UseMigrationsEndPoint();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "WebApi2 v1"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "ApiSandbox v1"));
             }
             else
             {
                 app.UseExceptionHandler("/Home/Error");
-
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
 
             app.UseHttpsRedirection();
-            var defaultFilesOptions = new DefaultFilesOptions();
-            defaultFilesOptions.DefaultFileNames = new List<string>();
-            defaultFilesOptions.DefaultFileNames.Add("index.html");
-            app.UseDefaultFiles(defaultFilesOptions);
+
+            app.UseDefaultFiles(new DefaultFilesOptions
+            {
+                DefaultFileNames = new List<string> { "index.html" },
+            });
+
             app.UseStaticFiles();
 
             app.UseRouting();
 
-            app.UseAuthentication();
+			app.UseAuthentication();
+
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers();
-
-                endpoints.MapControllerRoute(
+				endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
-                endpoints.MapRazorPages();
+                endpoints.MapControllers();
                 endpoints.MapHub<MessageHub>("/messagehub");
             });
+            app.SeedData();
         }
     }
-
-    // api.openweathermap.org/data/2.5/weather?lat=45.6427&lon=25.5887&appid=baf0ee4e9de6d933b877336983a0b1c8.
 }
