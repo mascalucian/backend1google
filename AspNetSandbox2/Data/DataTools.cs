@@ -28,7 +28,6 @@ namespace AspNetSandbox.Data
                         Title = "Harry Potter and the Goblet of Fire",
                         Author = "JK Rowling",
                         Language = "English",
-                        PurchasePrice = 50,
                     });
                     Console.WriteLine("Added book with title: Harry Potter and the Goblet of Fire");
                     applicationDbContext.Add(new Book
@@ -37,10 +36,9 @@ namespace AspNetSandbox.Data
                         Title = "The Happiest Man on Earth",
                         Author = "Eddie Jaku",
                         Language = "English",
-                        PurchasePrice = 35,
                     });
                     Console.WriteLine("Added book with title: The Happiest Man on Earth");
-                    //applicationDbContext.SaveChanges();
+                    applicationDbContext.SaveChanges();
                 }
             }
         }
