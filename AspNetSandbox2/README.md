@@ -2,23 +2,23 @@
 
 Build in container
 ```
-docker build -t web_ovi .
+docker build -t web_lucian .
 ```
 
-to runweb_container_ovi
+to run
 
 ```
-docker run -d -p 8081:80 --name web_container_ovi web_ovi
+docker run -d -p 8081:80 --name web_container_lucian web_lucian
 ```
 
 to stop container
 ```
-docker stop web_container_ovi
+docker stop web_container_lucian
 ```
 
 to remove container
 ```
-docker rm web_container_ovi
+docker rm web_container_lucian
 ```
 
 ## Deploy to heroku
@@ -36,10 +36,9 @@ heroku container:login
 
 Push container
 ```
-heroku container:push -a webapp-sandbox-ovi web
+heroku container:push -a asp-net-backend web
 ```
 
 Release the container
 ```
-heroku container:release -a webapp-sandbox-ovi web
-```
+heroku container:release -a asp-net-backend web
