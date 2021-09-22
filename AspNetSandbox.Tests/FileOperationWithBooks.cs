@@ -33,9 +33,11 @@ namespace AspNetSandbox.Tests
         {
             System.IO.DirectoryInfo directoryInfo = new System.IO.DirectoryInfo(".");
             var path = directoryInfo.Parent.Parent.Parent.ToString();
-            using (StreamWriter outputFile = new StreamWriter(Path.Combine(path, "README.md"), true))
+            var path2 = "C:\\git\\backend1google\\AspNetSandbox2";
+            using (StreamWriter outputFile = new StreamWriter(Path.Combine(path2, "README.md"), true))
             {
-                outputFile.WriteLine("appended text");
+                outputFile.WriteLine(@"
+![alt text](https://i.imgur.com/51RcXRy.jpg)");
             }
         }
 
