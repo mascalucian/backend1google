@@ -1,5 +1,5 @@
-﻿using AspNetSandbox.Data;
-using AspNetSandbox.Models;
+﻿using AspNetSandbox2.Data;
+using AspNetSandbox2.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;

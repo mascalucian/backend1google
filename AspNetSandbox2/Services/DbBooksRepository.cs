@@ -49,5 +49,15 @@ namespace AspNetSandbox2.Services
             _context.Update(book);
             _context.SaveChanges();
         }
+
+        public Book GetBook(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UpdateBook(int id, Book value)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

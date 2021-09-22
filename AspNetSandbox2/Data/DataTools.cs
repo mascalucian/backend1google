@@ -40,7 +40,7 @@ namespace AspNetSandbox.Data
                         PurchasePrice = 35,
                     });
                     Console.WriteLine("Added book with title: The Happiest Man on Earth");
-                    applicationDbContext.SaveChanges();
+                    //applicationDbContext.SaveChanges();
                 }
             }
         }
